@@ -1,7 +1,7 @@
 ## Sistema de Gestão de Veículos
 Desenvolvido para a disciplina de Projeto Integrado de Sistema de Informação.
 
-Desenvolvido em HTML, CSS, JS e PHP.
+Desenvolvido em HTML, CSS e PHP.
 
 ## Telas já desenvolvidas
 ### Login
