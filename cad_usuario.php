@@ -31,12 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 // Fecha Bd
 $mysqli->close();
-
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,7 +48,6 @@ $mysqli->close();
     <link rel="stylesheet" href="css/styles.css">
     <title>Registre-se</title>
 </head>
-
 <body>
     <div class="main-login">
         <form action="" method="post">
@@ -72,11 +68,9 @@ $mysqli->close();
                 <button class="btn-login" type="submit">Cadastrar</button>
                 <span class="error"><?php echo $usuario_error; ?></span> <!-- Exibe a mensagem de erro de usuario -->
                 <span class="sucess"><?php echo $usuario_sucess; ?></span> <!-- Exibe a mensagem de sucesso cadastro do usuário -->
-
                 <p>Já tem uma conta? Faça login <a href="index.php">aqui</a></p>
             </div>
         </form>
     </div>
 </body>
-
 </html>

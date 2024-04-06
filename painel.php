@@ -23,12 +23,9 @@ if ($result) {
 
 // Fecha a conexão com o banco de dados
 $mysqli->close();
-
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +40,6 @@ $mysqli->close();
     <!-- Chamando CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
     <!-- grid-conteiner: contêiner que envolve todo o conteúdo da página -->
     <div class="grid-container">
@@ -53,11 +49,10 @@ $mysqli->close();
                 <span class="material-icons-outlined">menu</span>
             </div>
             <div class="header-left">
-                <span class="user-name"><?php echo "Olá $usuario"; ?></span>
+                <span class="user-name font-weight-bold"><?php echo "Hi $usuario"; ?></span>
             </div>
             <div class="header-right">
                 <a href="logout.php"><span class="material-icons-outlined">logout</span> </a>
-
             </div>
         </header>
         <!-- End Header -->
@@ -70,7 +65,6 @@ $mysqli->close();
                 </div>
                 <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
             </div>
-
             <ul class="sidebar-list">
                 <li class="sidebar-list-item">
                     <a href="painel.php">
@@ -97,7 +91,6 @@ $mysqli->close();
                         <span class="material-icons-outlined">poll</span> Relatórios
                     </a>
                 </li>
-
             </ul>
         </aside>
         <!-- End Sidebar -->
@@ -118,17 +111,11 @@ $mysqli->close();
                     </div>
                     <span class="text-primary font-weight-bold"><?php echo $total_veiculos; ?></span>
                 </div>
-
         </main>
         <!--End Main -->
 
     </div>
     <!-- End grid-conteiner -->
-
-    <!-- Scripts -->
-    <!-- ApexCharts: Biblioteca de Graficos e Relatórios -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.48.0/apexcharts.min.js"></script>
-
     <!-- Chamando JS-->
     <script src="js/scripts.js"></script>
 </body>

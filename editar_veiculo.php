@@ -43,10 +43,8 @@ $ano = $row['ano'];
 // Fecha a declaração
 $stmt->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,7 +59,6 @@ $stmt->close();
     <!-- Chamando CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
     <!-- grid-conteiner: contêiner que envolve todo o conteúdo da página -->
     <div class="grid-container">
@@ -71,11 +68,10 @@ $stmt->close();
                 <span class="material-icons-outlined">menu</span>
             </div>
             <div class="header-left">
-                <span class="user-name"><?php echo "Olá $usuario"; ?></span>
+                <span class="user-name font-weight-bold"><?php echo "Hi $usuario"; ?></span>
             </div>
             <div class="header-right">
                 <a href="logout.php"><span class="material-icons-outlined">logout</span> </a>
-
             </div>
         </header>
         <!-- End Header -->
@@ -88,7 +84,6 @@ $stmt->close();
                 </div>
                 <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
             </div>
-
             <ul class="sidebar-list">
                 <li class="sidebar-list-item">
                     <a href="painel.php">
@@ -115,7 +110,6 @@ $stmt->close();
                         <span class="material-icons-outlined">poll</span> Relatórios
                     </a>
                 </li>
-
             </ul>
         </aside>
         <!-- End Sidebar -->
@@ -151,9 +145,7 @@ $stmt->close();
         <!--End Main -->
     </div>
     <!-- End grid-conteiner -->
-
-    <!-- Scripts -->
-    <!-- Chamando JS -->
+    <!-- Chamando JS-->
+    <script src="js/scripts.js"></script>
 </body>
-
 </html>

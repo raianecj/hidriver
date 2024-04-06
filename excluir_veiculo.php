@@ -18,7 +18,4 @@ if ($mysqli->query($sql) === TRUE) {
 
 // Fecha a conexão com o banco de dados
 $mysqli->close();
-
-
-
 ?>

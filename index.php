@@ -16,7 +16,6 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
     } else if (strlen($_POST['senha']) == 0) {
         $senha_error = "Preencha sua senha";
     } else {
-
         $email = $mysqli->real_escape_string($_POST['email']); //string de segurança contra hackers, que "limpa" o campo
         $senha = $mysqli->real_escape_string($_POST['senha']);
 
@@ -27,13 +26,10 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
         $quantidade = $sql_query->num_rows;
 
         // echo "Número de resultados: " . $quantidade . "<br>";
-
         if ($quantidade == 1) {
             $usuario = $sql_query->fetch_assoc();
 
             // criando uma sessão
-
-
             $_SESSION['id'] = $usuario['id'];
             $_SESSION['nome'] = $usuario['nome'];
 
@@ -49,13 +45,9 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
         // var_dump($usuario);
     }
 }
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,10 +60,8 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
 
     <!-- Chamando CSS -->
     <link rel="stylesheet" href="css/styles.css">
-
     <title>Hi Driver</title>
 </head>
-
 <body>
     <div class="main-login">
         <form action="" method="post">
@@ -86,18 +76,12 @@ if (isset($_POST['email']) || isset($_POST['senha'])) {
                     <label for="">Senha</label>
                     <input type="password" name="senha" id="idsenha">
                     <span class="error"><?php echo $senha_error; ?></span> <!-- Exibe a mensagem de erro de senha -->
-
                 </div>
                 <button class="btn-login" type="submit">Entrar</button>
                 <span class="error"><?php echo $login_error; ?></span> <!-- Exibe a mensagem de erro de login -->
-
                 <p>Não tem uma conta? Registre-se <a href=cad_usuario.php>aqui</a></p>
-
             </div>
         </form>
-
-
     </div>
 </body>
-
 </html>

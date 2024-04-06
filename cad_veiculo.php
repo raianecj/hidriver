@@ -5,7 +5,6 @@ include('config.php');
 //Obtem o nome do usuario da sessão
 $usuario = $_SESSION['nome'];
 
-
 $veiculo_sucess = ''; // Variável para armazenar mensagem sucesso de criação de usuário
 $veiculo_error = ''; // Variável para armazenar mensagem erro de criação de usuário
 
@@ -50,12 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,7 +66,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Chamando CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
     <!-- grid-conteiner: contêiner que envolve todo o conteúdo da página -->
     <div class="grid-container">
@@ -80,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <span class="material-icons-outlined">menu</span>
             </div>
             <div class="header-left">
-                <span class="user-name"><?php echo "Olá $usuario"; ?></span>
+                <span class="user-name font-weight-bold"><?php echo "Hi $usuario"; ?></span>
             </div>
             <div class="header-right">
                 <a href="logout.php"><span class="material-icons-outlined">logout</span> </a>
@@ -97,7 +92,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
             </div>
-
             <ul class="sidebar-list">
                 <li class="sidebar-list-item">
                     <a href="painel.php">
@@ -124,16 +118,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <span class="material-icons-outlined">poll</span> Relatórios
                     </a>
                 </li>
-
             </ul>
         </aside>
         <!-- End Sidebar -->
 
         <!-- Main: Conteudo principal da página -->
-
         <main class="main-conteiner">
-
-
             <div class="main-title">
                 <p class="font-weight-bold">MEUS VEÍCULOS</p>
             </div>
@@ -145,7 +135,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <th>Ano</th>
                     <th>Ações</th>
                 </tr>
-
                 <?php
 
                 $sql = "SELECT id, modelo, marca, ano FROM veiculos";
@@ -168,7 +157,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo "Nenhum veículo cadastrado";
                 }
                 $mysqli->close();
-
                 ?>
             </table>
             <!-- End Read Veículos -->
@@ -199,26 +187,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <br>
                         <span class="error"><?php echo $veiculo_error; ?></span> <!-- Exibe a mensagem de erro de veiculo -->
                         <span class="sucess"><?php echo $veiculo_sucess; ?></span> <!-- Exibe a mensagem de veiculo cadastrado -->
-
                     </div>
-
-
-
                 </form>
             </div>
         </main>
-
         <!--End Main -->
-
     </div>
     <!-- End grid-conteiner -->
-
-    <!-- Scripts -->
-
-
-
     <!-- Chamando JS-->
-
+    <script src="js/scripts.js"></script>
 </body>
-
 </html>
