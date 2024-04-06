@@ -1,0 +1,38 @@
+-- Criação do banco de dados 
+CREATE DATABASE hidriver;
+
+-- Seleciona o banco de dados a ser usado
+USE hidriver;
+
+-- Criação da tabela usuarios
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100),
+    email VARCHAR(255),
+    senha VARCHAR(100)
+);
+
+-- Inserção de dados na tabela usuarios
+INSERT INTO usuarios (nome, email, senha) VALUES ('João', 'joao@example.com', '123456');
+INSERT INTO usuarios (nome, email, senha) VALUES ('Maria', 'maria@example.com', '123456');
+INSERT INTO usuarios (nome, email, senha) VALUES ('Pedro', 'pedro@example.com', '123456');
+
+-- Criação da tabela veiculos
+CREATE TABLE veiculos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    modelo VARCHAR(100),
+    marca VARCHAR(100),
+    ano INT(100)
+);
+
+-- Inserção de dados na tabela veiculos
+INSERT INTO veiculos (modelo, marca, ano) VALUES ('Fiesta', 'Ford', '2001');
+INSERT INTO veiculos (modelo, marca, ano) VALUES ('Gol', 'WolksWagen', '2006');
+INSERT INTO veiculos (modelo, marca, ano) VALUES ('HB20', 'Hyundai', '2020');
+INSERT INTO veiculos (modelo, marca, ano) VALUES ('XTZ 250X', 'Yamaha', 2020);
+INSERT INTO veiculos (modelo, marca, ano) VALUES ('FH 460', 'Volvo', 2019);
+INSERT INTO veiculos (modelo, marca, ano) VALUES ('Gol', 'Volkswagen', 2018);
+INSERT INTO veiculos (modelo, marca, ano) VALUES ('CB 500X', 'Honda', 2019);
+INSERT INTO veiculos (modelo, marca, ano) VALUES ('R500', 'Scania', 2017);
+INSERT INTO veiculos (modelo, marca, ano) VALUES ('Fiesta', 'Ford', 2015);
+

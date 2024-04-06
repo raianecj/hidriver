@@ -1,29 +1,8 @@
 <?php
 include('protect.php');
-include('config.php');
 
 //Obtem o nome do usuario da sessão
 $usuario = $_SESSION['nome'];
-
-// Consulta SQL para contar o número de veículos cadastrados
-$sql = "SELECT COUNT(*) AS total_veiculos FROM veiculos";
-
-// Executa a consulta SQL
-$result = $mysqli->query($sql);
-
-// Verifica se a consulta foi bem-sucedida
-if ($result) {
-    // Obtém o número total de veículos cadastrados
-    $row = $result->fetch_assoc();
-    $total_veiculos = $row['total_veiculos'];
-} else {
-    // Em caso de erro na consulta, define o total de veículos como 0
-    $total_veiculos = 0;
-}
-
-// Fecha a conexão com o banco de dados
-$mysqli->close();
-
 ?>
 
 <!DOCTYPE html>
@@ -83,17 +62,17 @@ $mysqli->close();
                     </a>
                 </li>
                 <li class="sidebar-list-item">
-                    <a href="#">
+                    <a href="despesas.php">
                         <span class="material-icons-outlined">fact_check</span> Despesas
                     </a>
                 </li>
                 <li class="sidebar-list-item">
-                    <a href="#">
+                    <a href="agenda.php">
                         <span class="material-icons-outlined">calendar_month</span> Agenda
                     </a>
                 </li>
                 <li class="sidebar-list-item">
-                    <a href="#">
+                    <a href="relatorios.php">
                         <span class="material-icons-outlined">poll</span> Relatórios
                     </a>
                 </li>
@@ -103,34 +82,68 @@ $mysqli->close();
         <!-- End Sidebar -->
 
         <!-- Main: Conteudo principal da página -->
-        <main class="main-conteiner">
-            <div class="main-title">
-                <p class="font-weight-bold">PAINEL INICIAL</p>
-            </div>
-            <!-- Cards -->
-            <div class="main-cards">
-                <div class="card">
-                    <div class="card-inner">
-                        <a href="veiculos.php">
-                            <p class="text-primary"> VEÍCULOS </p>
-                        </a>
-                        <span class="material-icons-outlined text-blue">drive_eta</span>
-                    </div>
-                    <span class="text-primary font-weight-bold"><?php echo $total_veiculos; ?></span>
-                </div>
 
+        <main class="main-conteiner">
+
+
+            <div class="main-title">
+                <p class="font-weight-bold">MEUS VEÍCULOS</p>
+            </div>
+            <!-- Read Veículos -->
+            <table class="crud-table">
+                <tr>
+                    <th>Modelo</th>
+                    <th>Marca</th>
+                    <th>Ano</th>
+                    <th>Ações</th>
+                </tr>
+
+                <?php
+                include('config.php');
+                $sql = "SELECT id, modelo, marca, ano FROM veiculos";
+
+                $result = $mysqli->query($sql);
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $row["modelo"] . "</td>";
+                        echo "<td>" . $row["marca"] . "</td>";
+                        echo "<td>" . $row["ano"] . "</td>";
+                        echo "<td>";
+                        echo "<a href='editar_veiculo.php?id=" . $row["id"] . "'><span class='material-icons-outlined text-primary' title='Editar'>cached</span></a> | ";
+                        echo "<a href='excluir_veiculo.php?id=" . $row["id"] . "'><span class='material-icons-outlined text-primary' title='Excluir'>delete</span></a>";
+                        echo "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "Nenhum veículo cadastrado";
+                }
+                $mysqli->close();
+                ?>
+            </table>
+            <!-- End Read Veículos -->
+
+            <!-- Cadastrar veículos-->
+
+            <br><a href="cad_veiculo.php">
+                <p class="font-weight-bold">
+                    <span class="material-icons-outlined">add_box</span> Cadastrar Veiculo
+                </p>
+            </a>
         </main>
+
         <!--End Main -->
 
     </div>
     <!-- End grid-conteiner -->
 
     <!-- Scripts -->
-    <!-- ApexCharts: Biblioteca de Graficos e Relatórios -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.48.0/apexcharts.min.js"></script>
+
+
 
     <!-- Chamando JS-->
-    <script src="js/scripts.js"></script>
+
 </body>
 
 </html>

@@ -1,9 +1,8 @@
 <!-- Pagina para encerrar a sessão -->
 
-<?php 
-if(!isset($_SESSION)){
+<?php
+if (!isset($_SESSION)) {
     session_start();
-
 }
 session_destroy();
 

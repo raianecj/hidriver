@@ -5,25 +5,43 @@ include('config.php');
 //Obtem o nome do usuario da sessão
 $usuario = $_SESSION['nome'];
 
-// Consulta SQL para contar o número de veículos cadastrados
-$sql = "SELECT COUNT(*) AS total_veiculos FROM veiculos";
+// Inicialização das variáveis
+$modelo = '';
+$marca = '';
+$ano = '';
 
-// Executa a consulta SQL
-$result = $mysqli->query($sql);
-
-// Verifica se a consulta foi bem-sucedida
-if ($result) {
-    // Obtém o número total de veículos cadastrados
-    $row = $result->fetch_assoc();
-    $total_veiculos = $row['total_veiculos'];
-} else {
-    // Em caso de erro na consulta, define o total de veículos como 0
-    $total_veiculos = 0;
+// Verifica se o parâmetro ID foi passado na URL
+if (!isset($_GET['id'])) {
+    header("Location: veiculos.php"); // Redireciona de volta para a página de veículos se não houver ID
+    exit();
 }
 
-// Fecha a conexão com o banco de dados
-$mysqli->close();
+// Obtém o ID do veículo da URL
+$id = $_GET['id'];
 
+// Consulta SQL para selecionar o veículo com o ID fornecido
+$sql = "SELECT id, modelo, marca, ano FROM veiculos WHERE id = ?";
+
+// Prepara e executa a consulta SQL
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Verifica se o veículo foi encontrado
+if ($result->num_rows === 0) {
+    echo "Veículo não encontrado.";
+    exit();
+}
+
+// Obtém os dados do veículo
+$row = $result->fetch_assoc();
+$modelo = $row['modelo'];
+$marca = $row['marca'];
+$ano = $row['ano'];
+
+// Fecha a declaração
+$stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -83,17 +101,17 @@ $mysqli->close();
                     </a>
                 </li>
                 <li class="sidebar-list-item">
-                    <a href="#">
+                    <a href="despesas.php">
                         <span class="material-icons-outlined">fact_check</span> Despesas
                     </a>
                 </li>
                 <li class="sidebar-list-item">
-                    <a href="#">
+                    <a href="agenda.php">
                         <span class="material-icons-outlined">calendar_month</span> Agenda
                     </a>
                 </li>
                 <li class="sidebar-list-item">
-                    <a href="#">
+                    <a href="relatorios.php">
                         <span class="material-icons-outlined">poll</span> Relatórios
                     </a>
                 </li>
@@ -105,32 +123,37 @@ $mysqli->close();
         <!-- Main: Conteudo principal da página -->
         <main class="main-conteiner">
             <div class="main-title">
-                <p class="font-weight-bold">PAINEL INICIAL</p>
+                <p class="font-weight-bold">EDITAR VEÍCULO</p>
             </div>
-            <!-- Cards -->
-            <div class="main-cards">
-                <div class="card">
-                    <div class="card-inner">
-                        <a href="veiculos.php">
-                            <p class="text-primary"> VEÍCULOS </p>
-                        </a>
-                        <span class="material-icons-outlined text-blue">drive_eta</span>
-                    </div>
-                    <span class="text-primary font-weight-bold"><?php echo $total_veiculos; ?></span>
-                </div>
 
+            <div div="editar-veiculo">
+                <form action="atualizar_veiculo.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $id; ?>">
+                    <div class="card-cad-veiculos">
+                        <div class="textfield">
+                            <label for="idmodelo">Modelo</label>
+                            <input type="text" name="modelo" id="idmodelo" required value="<?php echo htmlspecialchars($modelo); ?>">
+                        </div>
+                        <div class="textfield">
+                            <label for="idmarca">Marca</label>
+                            <input type="text" name="marca" id="idmarca" required value="<?php echo htmlspecialchars($marca); ?>">
+                        </div>
+                        <div class="textfield">
+                            <label for="idano">Ano</label>
+                            <input type="text" name="ano" id="idano" required value="<?php echo htmlspecialchars($ano); ?>">
+                        </div>
+                        <button class="btn-cad" type="submit">Atualizar</button>
+                        <button class="btn-cad" onclick="history.back">Voltar</button>
+                    </div>
+                </form>
+            </div>
         </main>
         <!--End Main -->
-
     </div>
     <!-- End grid-conteiner -->
 
     <!-- Scripts -->
-    <!-- ApexCharts: Biblioteca de Graficos e Relatórios -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.48.0/apexcharts.min.js"></script>
-
-    <!-- Chamando JS-->
-    <script src="js/scripts.js"></script>
+    <!-- Chamando JS -->
 </body>
 
 </html>
