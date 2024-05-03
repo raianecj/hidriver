@@ -21,15 +21,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $modelo = $_POST["modelo"];
         $marca = $_POST["marca"];
         $ano = $_POST["ano"];
+        $usuario_id = $_SESSION['id']; // Obtém o ID do usuário da sessão
 
         // Inserindo os dados no BD
-        $sql = "INSERT INTO veiculos (modelo, marca, ano) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO veiculos (modelo, marca, ano, id_usuario) VALUES (?, ?, ?, ?)";
 
         // Prepara a consulta sql de forma segura
         $stmt = $mysqli->prepare($sql);
 
         //Garante que os dados sejam tratados de forma correta e segura
-        $stmt->bind_param("sss", $modelo, $marca, $ano);
+        $stmt->bind_param("sssi", $modelo, $marca, $ano, $usuario_id);
 
         //Executa a consulta sql e retorna msg de sucesso ou erro
         if ($stmt->execute()) {
@@ -52,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Chamando CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <!-- grid-conteiner: contêiner que envolve todo o conteúdo da página -->
     <div class="grid-container">
@@ -75,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <span class="material-icons-outlined">menu</span>
             </div>
             <div class="header-left">
+            <span class="material-icons-outlined ">sentiment_satisfied_alt</span>
                 <span class="user-name font-weight-bold"><?php echo "Hi $usuario"; ?></span>
             </div>
             <div class="header-right">
@@ -104,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </a>
                 </li>
                 <li class="sidebar-list-item">
-                    <a href="despesas.php">
+                    <a href="cad_despesas.php">
                         <span class="material-icons-outlined">fact_check</span> Despesas
                     </a>
                 </li>
@@ -125,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Main: Conteudo principal da página -->
         <main class="main-conteiner">
             <div class="main-title">
-                <p class="font-weight-bold">MEUS VEÍCULOS</p>
+                <h2>MEUS VEÍCULOS</h2>
             </div>
             <!-- Read Veículos -->
             <table class="crud-table">
@@ -135,11 +139,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <th>Ano</th>
                     <th>Ações</th>
                 </tr>
+
                 <?php
+                // Consulta SQL para selecionar os veículos do usuário logado
+                $sql = "SELECT id, modelo, marca, ano FROM veiculos WHERE id_usuario = ?";
 
-                $sql = "SELECT id, modelo, marca, ano FROM veiculos";
+                // Prepara a consulta SQL de forma segura
+                $stmt = $mysqli->prepare($sql);
 
-                $result = $mysqli->query($sql);
+                // Verifica se a preparação da consulta foi bem-sucedida
+                if ($stmt) {
+                    // Vincula o parâmetro ID do usuário
+                    $stmt->bind_param("i", $_SESSION['id']);
+
+                    // Executa a consulta
+                    $stmt->execute();
+
+                    // Obtém o resultado da consulta
+                    $result = $stmt->get_result();
+
+                    // Fecha a declaração
+                    $stmt->close();
+                } else {
+                    $veiculo_error = "Erro ao preparar a consulta: " . $mysqli->error;
+                }
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
@@ -149,12 +172,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         echo "<td>" . $row["ano"] . "</td>";
                         echo "<td>";
                         echo "<a href='editar_veiculo.php?id=" . $row["id"] . "'><span class='material-icons-outlined text-primary' title='Editar'>cached</span></a> | ";
-                        echo "<a href='excluir_veiculo.php?id=" . $row["id"] . "'><span class='material-icons-outlined text-primary' title='Excluir'>delete</span></a>";
+                        echo "<a href='excluir_veiculo.php?id=" . $row["id"] . "' onclick='return confirm(\"Tem certeza de que deseja excluir este veículo?\")'><span class='material-icons-outlined text-primary' title='Excluir'>delete</span></a>";
                         echo "</td>";
                         echo "</tr>";
                     }
                 } else {
-                    echo "Nenhum veículo cadastrado";
+                    echo "<tr><td colspan='4'>Nenhum veículo cadastrado</td></tr>";
                 }
                 $mysqli->close();
                 ?>
@@ -162,12 +185,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- End Read Veículos -->
 
             <!-- Cadastrar veículos-->
-
-            <br><a href="cad_veiculo.php">
-                <p class="font-weight-bold">
-                    <span class="material-icons-outlined">add_box</span> Cadastrar Veiculo
-                </p>
-            </a>
+            <br>
+            <div class="main-title">
+                <a href="cad_veiculo.php">
+                    <p class="font-weight-bold">
+                        <span class="material-icons-outlined">add_box</span> Cadastrar Veiculo
+                    </p>
+                </a>
+            </div>
             <div div="cad-veiculos">
                 <form action="" method="post">
                     <div class="card-cad-veiculos">
@@ -184,6 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="text" name="ano" id="idano" required value="<?php echo htmlspecialchars($ano); ?>">
                         </div>
                         <button class="btn-cad" type="submit">Cadastrar</button>
+                        <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['id']; ?>"> <!-- cadastrar o veículo apenas no usuário logado -->
                         <br>
                         <span class="error"><?php echo $veiculo_error; ?></span> <!-- Exibe a mensagem de erro de veiculo -->
                         <span class="sucess"><?php echo $veiculo_sucess; ?></span> <!-- Exibe a mensagem de veiculo cadastrado -->

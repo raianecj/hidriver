@@ -96,7 +96,7 @@ $stmt->close();
                     </a>
                 </li>
                 <li class="sidebar-list-item">
-                    <a href="despesas.php">
+                    <a href="cad_despesas.php">
                         <span class="material-icons-outlined">fact_check</span> Despesas
                     </a>
                 </li>

@@ -6,26 +6,62 @@ include('config.php');
 $usuario = $_SESSION['nome'];
 
 // Consulta SQL para contar o número de veículos cadastrados
-$sql = "SELECT COUNT(*) AS total_veiculos FROM veiculos";
+$sql = "SELECT COUNT(*) AS total_veiculos FROM veiculos WHERE id_usuario = ?";
 
-// Executa a consulta SQL
-$result = $mysqli->query($sql);
+// Prepara a consulta SQL de forma segura
+$stmt = $mysqli->prepare($sql);
 
-// Verifica se a consulta foi bem-sucedida
-if ($result) {
-    // Obtém o número total de veículos cadastrados
-    $row = $result->fetch_assoc();
-    $total_veiculos = $row['total_veiculos'];
+// Verifica se a preparação da consulta foi bem-sucedida
+if ($stmt) {
+    // Vincula o parâmetro da consulta
+    $stmt->bind_param("i", $_SESSION['id']);
+
+    // Executa a consulta
+    $stmt->execute();
+
+    // Vincula o resultado da consulta
+    $stmt->bind_result($total_veiculos);
+
+    // Obtém o resultado da consulta
+    $stmt->fetch();
+
+    // Fecha a declaração
+    $stmt->close();
 } else {
-    // Em caso de erro na consulta, define o total de veículos como 0
+    // Em caso de erro na preparação da consulta, define o total de veículos como 0
     $total_veiculos = 0;
 }
+// Consulta SQL para calcular o valor total das despesas
+$sql_total_despesas = "SELECT SUM(valor) AS total_despesas FROM despesas WHERE id_veiculo IN (SELECT id FROM veiculos WHERE id_usuario = ?)";
 
-// Fecha a conexão com o banco de dados
-$mysqli->close();
+// Prepara a consulta SQL de forma segura
+$stmt_total_despesas = $mysqli->prepare($sql_total_despesas);
+
+// Verifica se a preparação da consulta foi bem-sucedida
+if ($stmt_total_despesas) {
+    // Vincula o parâmetro da consulta
+    $stmt_total_despesas->bind_param("i", $_SESSION['id']);
+
+    // Executa a consulta
+    $stmt_total_despesas->execute();
+
+    // Vincula o resultado da consulta
+    $stmt_total_despesas->bind_result($total_despesas);
+
+    // Obtém o resultado da consulta
+    $stmt_total_despesas->fetch();
+
+    // Fecha a declaração
+    $stmt_total_despesas->close();
+} else {
+    // Em caso de erro na preparação da consulta, define o total de despesas como 0
+    $total_despesas = 0;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,6 +76,7 @@ $mysqli->close();
     <!-- Chamando CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <!-- grid-conteiner: contêiner que envolve todo o conteúdo da página -->
     <div class="grid-container">
@@ -49,7 +86,9 @@ $mysqli->close();
                 <span class="material-icons-outlined">menu</span>
             </div>
             <div class="header-left">
-                <span class="user-name font-weight-bold"><?php echo "Hi $usuario"; ?></span>
+                <span class="material-icons-outlined ">sentiment_satisfied_alt</span>
+                <span class="user-name font-weight-bold "><?php echo "Hi $usuario"; ?></span>
+
             </div>
             <div class="header-right">
                 <a href="logout.php"><span class="material-icons-outlined">logout</span> </a>
@@ -77,7 +116,7 @@ $mysqli->close();
                     </a>
                 </li>
                 <li class="sidebar-list-item">
-                    <a href="#">
+                    <a href="cad_despesas.php">
                         <span class="material-icons-outlined">fact_check</span> Despesas
                     </a>
                 </li>
@@ -98,7 +137,7 @@ $mysqli->close();
         <!-- Main: Conteudo principal da página -->
         <main class="main-conteiner">
             <div class="main-title">
-                <p class="font-weight-bold">PAINEL INICIAL</p>
+                <h2>PAINEL INICIAL</h2>
             </div>
             <!-- Cards -->
             <div class="main-cards">
@@ -111,6 +150,55 @@ $mysqli->close();
                     </div>
                     <span class="text-primary font-weight-bold"><?php echo $total_veiculos; ?></span>
                 </div>
+                <div class="card">
+                    <div class="card-inner">
+                        <a href="cad_despesas.php">
+                            <p class="text-primary"> DESPESAS </p>
+                        </a>
+                        <span class="material-icons-outlined text-red">paid</span>
+                    </div>
+                    <span class="text-primary font-weight-bold">R$ <?php echo $total_despesas; ?></span>
+                </div>
+            </div>
+            <!-- End Cards -->
+            <!-- Linha do Tempo das Despesas -->
+            <div class="timeline">
+                <div class="main-title">
+                    <h3>Histórico</h3>
+                </div>
+                <ul>
+                    <?php
+                    // Consultar despesas e veículos do usuário
+                    $sql = "SELECT d.id, d.tipo_despesa, d.valor, v.modelo 
+                    FROM despesas AS d
+                    INNER JOIN veiculos AS v ON d.id_veiculo = v.id
+                    WHERE v.id_usuario = ?";
+                    $stmt = $mysqli->prepare($sql);
+                    if ($stmt) {
+                        $stmt->bind_param("i", $_SESSION['id']);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        // Exibir os resultados na linha do tempo
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<li>";
+                            echo "<strong>Veículo:</strong> " . $row['modelo'] . "<br>";
+                            echo "<strong>Tipo:</strong> " . $row['tipo_despesa'] . "<br>";
+                            echo "<strong>Valor:</strong> R$ " . $row['valor'];
+                            // Adicionar botões de ação para editar e excluir
+                            echo "<div class='action-buttons'>";
+                            echo "<a href='editar_despesa.php?id=" . $row["id"] . "'><span class='material-icons-outlined text-primary' title='Editar'>cached</span></a> | ";
+                            echo "<a href='excluir_despesa.php?id=" . $row["id"] . "' onclick='return confirm(\"Tem certeza de que deseja excluir esta despesa?\")'><span class='material-icons-outlined text-primary' title='Excluir'>delete</span></a>";
+                            echo "</div>"; // Fechar o contêiner de botões de ação
+                            echo "</li>";
+                        }
+
+                        $stmt->close();
+                    }
+                    ?>
+                </ul>
+            </div>
+
         </main>
         <!--End Main -->
 

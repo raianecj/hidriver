@@ -23,16 +23,46 @@ CREATE TABLE veiculos (
     modelo VARCHAR(100),
     marca VARCHAR(100),
     ano INT(100)
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+
 );
 
 -- Inserção de dados na tabela veiculos
-INSERT INTO veiculos (modelo, marca, ano) VALUES ('Fiesta', 'Ford', '2001');
-INSERT INTO veiculos (modelo, marca, ano) VALUES ('Gol', 'WolksWagen', '2006');
-INSERT INTO veiculos (modelo, marca, ano) VALUES ('HB20', 'Hyundai', '2020');
-INSERT INTO veiculos (modelo, marca, ano) VALUES ('XTZ 250X', 'Yamaha', 2020);
-INSERT INTO veiculos (modelo, marca, ano) VALUES ('FH 460', 'Volvo', 2019);
-INSERT INTO veiculos (modelo, marca, ano) VALUES ('Gol', 'Volkswagen', 2018);
-INSERT INTO veiculos (modelo, marca, ano) VALUES ('CB 500X', 'Honda', 2019);
-INSERT INTO veiculos (modelo, marca, ano) VALUES ('R500', 'Scania', 2017);
-INSERT INTO veiculos (modelo, marca, ano) VALUES ('Fiesta', 'Ford', 2015);
+INSERT INTO veiculos (modelo, marca, ano, id_usuario) VALUES ('Fiesta', 'Ford', '2001', '1');
+INSERT INTO veiculos (modelo, marca, ano, id_usuario) VALUES ('Gol', 'WolksWagen', '2006', '1');
+INSERT INTO veiculos (modelo, marca, ano, id_usuario) VALUES ('HB20', 'Hyundai', '2020', '1');
+INSERT INTO veiculos (modelo, marca, ano, id_usuario) VALUES ('XTZ 250X', 'Yamaha', 2020, '2');
+INSERT INTO veiculos (modelo, marca, ano, id_usuario) VALUES ('FH 460', 'Volvo', 2019, '2');
+INSERT INTO veiculos (modelo, marca, ano, id_usuario) VALUES ('Gol', 'Volkswagen', 2018, '2');
+INSERT INTO veiculos (modelo, marca, ano, id_usuario) VALUES ('CB 500X', 'Honda', 2019, '3');
+INSERT INTO veiculos (modelo, marca, ano, id_usuario) VALUES ('R500', 'Scania', 2017, '3');
+INSERT INTO veiculos (modelo, marca, ano, id_usuario) VALUES ('Fiesta', 'Ford', 2015, '3');
 
+-- Criação da tabela de despesas
+CREATE TABLE despesas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_veiculo INT,
+    FOREIGN KEY (id_veiculo) REFERENCES veiculos(id),
+    id_tipo_despesa INT,
+    tipo_despesa VARCHAR(100),
+    descricao VARCHAR(255),
+    valor FLOAT
+);
+
+-- Criação da tabela de Tipo de Despesas
+CREATE TABLE tipo_despesa (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100)
+);
+
+-- Inserção dos tipos de despesas
+INSERT INTO tipo_despesa (nome) VALUES ('Abastecimento');
+INSERT INTO tipo_despesa (nome) VALUES ('Estacionamento');
+INSERT INTO tipo_despesa (nome) VALUES ('Financiamento');
+INSERT INTO tipo_despesa (nome) VALUES ('Impostos(IPVA/DPVAT)');
+INSERT INTO tipo_despesa (nome) VALUES ('Lava-Rápido');
+INSERT INTO tipo_despesa (nome) VALUES ('Licenciamento');
+INSERT INTO tipo_despesa (nome) VALUES ('Multa');
+INSERT INTO tipo_despesa (nome) VALUES ('Pedágio');
+INSERT INTO tipo_despesa (nome) VALUES ('Seguro');
+INSERT INTO tipo_despesa (nome) VALUES ('Manutenção');

@@ -6,6 +6,7 @@ $usuario = $_SESSION['nome'];
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +21,7 @@ $usuario = $_SESSION['nome'];
     <!-- Chamando CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <!-- grid-conteiner: contêiner que envolve todo o conteúdo da página -->
     <div class="grid-container">
@@ -29,6 +31,7 @@ $usuario = $_SESSION['nome'];
                 <span class="material-icons-outlined">menu</span>
             </div>
             <div class="header-left">
+            <span class="material-icons-outlined ">sentiment_satisfied_alt</span>
                 <span class="user-name font-weight-bold"><?php echo "Hi $usuario"; ?></span>
             </div>
             <div class="header-right">
@@ -57,7 +60,7 @@ $usuario = $_SESSION['nome'];
                     </a>
                 </li>
                 <li class="sidebar-list-item">
-                    <a href="despesas.php">
+                    <a href="cad_despesas.php">
                         <span class="material-icons-outlined">fact_check</span> Despesas
                     </a>
                 </li>
@@ -78,7 +81,7 @@ $usuario = $_SESSION['nome'];
         <!-- Main: Conteudo principal da página -->
         <main class="main-conteiner">
             <div class="main-title">
-                <p class="font-weight-bold">MEUS VEÍCULOS</p>
+                <h2>MEUS VEÍCULOS</h2>
             </div>
             <!-- Read Veículos -->
             <table class="crud-table">
@@ -90,9 +93,28 @@ $usuario = $_SESSION['nome'];
                 </tr>
                 <?php
                 include('config.php');
-                $sql = "SELECT id, modelo, marca, ano FROM veiculos";
+                // Consulta SQL para selecionar os veículos do usuário logado
+                $sql = "SELECT id, modelo, marca, ano FROM veiculos WHERE id_usuario = ?";
 
-                $result = $mysqli->query($sql);
+                // Prepara a consulta SQL de forma segura
+                $stmt = $mysqli->prepare($sql);
+
+                // Verifica se a preparação da consulta foi bem-sucedida
+                if ($stmt) {
+                    // Vincula o parâmetro ID do usuário
+                    $stmt->bind_param("i", $_SESSION['id']);
+
+                    // Executa a consulta
+                    $stmt->execute();
+
+                    // Obtém o resultado da consulta
+                    $result = $stmt->get_result();
+
+                    // Fecha a declaração
+                    $stmt->close();
+                } else {
+                    $veiculo_error = "Erro ao preparar a consulta: " . $mysqli->error;
+                }
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
@@ -102,12 +124,12 @@ $usuario = $_SESSION['nome'];
                         echo "<td>" . $row["ano"] . "</td>";
                         echo "<td>";
                         echo "<a href='editar_veiculo.php?id=" . $row["id"] . "'><span class='material-icons-outlined text-primary' title='Editar'>cached</span></a> | ";
-                        echo "<a href='excluir_veiculo.php?id=" . $row["id"] . "'><span class='material-icons-outlined text-primary' title='Excluir'>delete</span></a>";
+                        echo "<a href='excluir_veiculo.php?id=" . $row["id"] . "' onclick='return confirm(\"Tem certeza de que deseja excluir este veículo?\")'><span class='material-icons-outlined text-primary' title='Excluir'>delete</span></a>";
                         echo "</td>";
                         echo "</tr>";
                     }
                 } else {
-                    echo "Nenhum veículo cadastrado";
+                    echo "<tr><td colspan='4'>Nenhum veículo cadastrado</td></tr>";
                 }
                 $mysqli->close();
                 ?>
@@ -115,11 +137,14 @@ $usuario = $_SESSION['nome'];
             <!-- End Read Veículos -->
 
             <!-- Cadastrar veículos-->
-            <br><a href="cad_veiculo.php">
-                <p class="font-weight-bold">
-                    <span class="material-icons-outlined">add_box</span> Cadastrar Veiculo
-                </p>
-            </a>
+            <br>
+            <div class="main-title">
+                <a href="cad_veiculo.php">
+                    <p class="font-weight-bold">
+                        <span class="material-icons-outlined">add_box</span> Cadastrar Veiculo
+                    </p>
+                </a>
+            </div>
         </main>
         <!--End Main -->
     </div>

@@ -8,7 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST["nome"];
     $email = $_POST["email"];
     $senha = $_POST["senha"];
-    //$rashed_password = password_hash($senha, PASSWORD_DEFAULT); // Para criptografar a senha
 
     // Inserindo os dados no BD
     $sql = "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)";
