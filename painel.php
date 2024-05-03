@@ -161,18 +161,20 @@ if ($stmt_total_despesas) {
                 </div>
             </div>
             <!-- End Cards -->
-            <!-- Linha do Tempo das Despesas -->
+            <!-- Histórico das Despesas -->
             <div class="timeline">
                 <div class="main-title">
                     <h3>Histórico</h3>
                 </div>
                 <ul>
                     <?php
-                    // Consultar despesas e veículos do usuário
-                    $sql = "SELECT d.id, d.tipo_despesa, d.valor, v.modelo 
+                    // Consultar despesas e veículos do usuário, incluindo o nome do tipo de despesa
+                    $sql = "SELECT d.id, td.nome AS tipo_despesa, d.valor, v.modelo, d.data_despesa
                     FROM despesas AS d
                     INNER JOIN veiculos AS v ON d.id_veiculo = v.id
-                    WHERE v.id_usuario = ?";
+                    INNER JOIN tipo_despesa AS td ON d.tipo_despesa = td.id
+                    WHERE v.id_usuario = ?
+                    ORDER BY d.data_despesa DESC"; // Ordenar pela data da despesa de forma descendente
                     $stmt = $mysqli->prepare($sql);
                     if ($stmt) {
                         $stmt->bind_param("i", $_SESSION['id']);
@@ -184,9 +186,13 @@ if ($stmt_total_despesas) {
                             echo "<li>";
                             echo "<strong>Veículo:</strong> " . $row['modelo'] . "<br>";
                             echo "<strong>Tipo:</strong> " . $row['tipo_despesa'] . "<br>";
-                            echo "<strong>Valor:</strong> R$ " . $row['valor'];
+                            echo "<strong>Valor:</strong> R$ " . $row['valor'] . "<br>";
+
+                            // Formatar a data para o estilo brasileiro (dd/mm/aaaa)
+                            $data_formatada = date("d/m/Y", strtotime($row['data_despesa']));
+                            echo "<strong>Data:</strong> " . $data_formatada;
                             // Adicionar botões de ação para editar e excluir
-                            echo "<div class='action-buttons'>";
+                            echo "<div class='action-buttons-timeline'>";
                             echo "<a href='editar_despesa.php?id=" . $row["id"] . "'><span class='material-icons-outlined text-primary' title='Editar'>cached</span></a> | ";
                             echo "<a href='excluir_despesa.php?id=" . $row["id"] . "' onclick='return confirm(\"Tem certeza de que deseja excluir esta despesa?\")'><span class='material-icons-outlined text-primary' title='Excluir'>delete</span></a>";
                             echo "</div>"; // Fechar o contêiner de botões de ação

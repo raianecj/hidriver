@@ -10,13 +10,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tipo_despesa = $_POST['tipo_despesa'];
     $descricao = $_POST['descricao'];
     $valor = $_POST['valor'];
+    $data_despesa = $_POST['data_despesa'];
 
     // Validar e sanitizar os dados (não incluído neste exemplo)
 
     // Inserir as informações da despesa no banco de dados
-    $sql = "INSERT INTO despesas (id_veiculo, tipo_despesa, descricao, valor) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO despesas (id_veiculo, tipo_despesa, descricao, valor, data_despesa) VALUES (?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("isss", $veiculo, $tipo_despesa, $descricao, $valor);
+    $stmt->bind_param("issss", $veiculo, $tipo_despesa, $descricao, $valor, $data_despesa);
     $stmt->execute();
     $stmt->close();
 }
@@ -187,6 +188,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="textfield">
                             <label for="valor">Valor:</label>
                             <input type="text" name="valor" id="valor" required>
+                        </div>
+                        <div class="textfield">
+                            <label for="data_despesa">Data:</label>
+                            <input type="date" name="data_despesa" id="data_despesa" required>
                         </div>
                         <button class="btn-cad" type="submit">Cadastrar Despesa</button>
                     </div>

@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #e6e8ed;
+    background-color: #edf3fb;
     color: #666666;
     /* Define a cor do texto como cinza escuro */
     font-family: "Montserrat", sans-serif;
@@ -46,7 +46,6 @@ a {
     font-weight: 600;
 }
 
-
 /* .grid-cointainer: define estilos para o conteiner da grade que envolve todo o conteudo da pagina*/
 .grid-container {
     display: grid;
@@ -60,7 +59,6 @@ a {
         "sidebar main main main";
     height: 100vh;
     /* Define a altura do contêiner da grade como 100% da altura da janela de visualização */
-
 }
 
 /* ---------- HEADER ---------- */
@@ -69,7 +67,7 @@ a {
     grid-area: header;
     /* Define a área ocupada pelo cabeçalho na grade */
     height: 70px;
-    background-color: #ffffff;
+    background-color: #fffafa;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -86,8 +84,8 @@ a {
 #sidebar {
     grid-area: sidebar;
     height: 100%;
-    background-color: #040b2b;
-    color: #9799ab;
+    background-color: #fffafa;
+    color: #000000;
     overflow-y: auto;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
@@ -122,7 +120,7 @@ a {
 }
 
 .sidebar-list-item:hover {
-    background-color: rgba(0, 4, 253, 0.281);
+    background-color: #4447fc48;
     cursor: pointer;
 }
 
@@ -168,10 +166,10 @@ a {
     justify-content: space-between;
     padding: 15px;
     width: 245px;
-    background-color: #ffffff;
+    background-color: #fffafa;
     box-sizing: border-box;
     border: 1px solid #d2d2d3;
-    border-radius: 5px;
+    border-radius: 25px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -217,7 +215,7 @@ a {
 }
 
 .charts-card {
-    background-color: #ffffff;
+    background-color: #fffafa;
     margin-bottom: 20px;
     padding: 25px;
     box-sizing: border-box;
@@ -244,8 +242,8 @@ a {
 }
 
 .card-login {
-    background-color: #ffffff;
-    border-radius: 10px;
+    background-color: #fffafa;
+    border-radius: 25px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     padding: 40px;
     width: 400px;
@@ -284,7 +282,7 @@ a {
     width: 100%;
     padding: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     background-color: #246dec;
     color: #ffffff;
     font-size: 16px;
@@ -350,16 +348,16 @@ a {
 }
 
 .crud-table th {
-    background-color: #f2f2f2;
+    background-color: #8b8dfc48;
     color: #333;
 }
 
 .crud-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #fffafa;
 }
 
 .crud-table tr:hover {
-    background-color: #ddd;
+    background-color: #4447fc48;
 }
 
 /* Estilo para links de ação */
@@ -396,21 +394,19 @@ a {
 }
 
 .card-cad-veiculos {
-    border-radius: 10px;
+    border-radius: 25px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fffafa;
     padding: 40px 100px 40px 120px;
     width: 500px; /* Defina a largura desejada */
     margin: 0 auto; /* Centralize o formulário horizontalmente */
-
-    
-
 }
 
 .btn-cad {
     width: 1fr;
-    padding: 10px;
+    padding: 10px 15px 10px 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     background-color: #246dec;
     color: #ffffff;
     font-size: 16px;
@@ -429,7 +425,8 @@ a {
 }
 
 .card-cad-despesas {
-    border-radius: 10px;
+    border-radius: 25px;
+    background-color: #fffafa;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     padding: 40px 100px 40px 120px;
     width: 500px; /* Defina a largura desejada */
@@ -440,8 +437,8 @@ a {
 .timeline {
     margin-top: 40px;
     padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
+    background-color: #fffafa;
+    border-radius: 25px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     width: 470px; /* Defina a largura desejada */
     margin: 40px;
@@ -461,10 +458,9 @@ a {
 .timeline li {
     margin-bottom: 20px;
     padding: 20px;
-    background-color: #f2f2f2;
-    border-left: 5px solid #367952;
-    border-radius: 5px;
-    
+    background-color: #edf3fb;
+    border-left: 7px solid #367952;
+    border-radius: 25px;
 }
 
 .timeline li:last-child {
@@ -494,9 +490,12 @@ a {
     text-decoration: underline;
 }
 
-.action-buttons {
+.action-buttons-timeline {
     text-align: right; /* Centraliza os botões horizontalmente */
-    margin-top: 10px; /* Adiciona espaço entre os itens da lista */
+}
+
+.action-buttons-veiculos {
+    text-align: center; /* Centraliza os botões horizontalmente */
 }
 
 /* ---------- MEDIA QUERIES: Web Design Responsivo ---------- */

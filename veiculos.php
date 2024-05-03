@@ -31,7 +31,7 @@ $usuario = $_SESSION['nome'];
                 <span class="material-icons-outlined">menu</span>
             </div>
             <div class="header-left">
-            <span class="material-icons-outlined ">sentiment_satisfied_alt</span>
+                <span class="material-icons-outlined ">sentiment_satisfied_alt</span>
                 <span class="user-name font-weight-bold"><?php echo "Hi $usuario"; ?></span>
             </div>
             <div class="header-right">
@@ -123,8 +123,10 @@ $usuario = $_SESSION['nome'];
                         echo "<td>" . $row["marca"] . "</td>";
                         echo "<td>" . $row["ano"] . "</td>";
                         echo "<td>";
+                        echo "<div class='action-buttons-veiculos'>";
                         echo "<a href='editar_veiculo.php?id=" . $row["id"] . "'><span class='material-icons-outlined text-primary' title='Editar'>cached</span></a> | ";
                         echo "<a href='excluir_veiculo.php?id=" . $row["id"] . "' onclick='return confirm(\"Tem certeza de que deseja excluir este veículo?\")'><span class='material-icons-outlined text-primary' title='Excluir'>delete</span></a>";
+                        echo "</div>";
                         echo "</td>";
                         echo "</tr>";
                     }
@@ -152,4 +154,5 @@ $usuario = $_SESSION['nome'];
     <!-- Chamando JS-->
     <script src="js/scripts.js"></script>
 </body>
+
 </html>

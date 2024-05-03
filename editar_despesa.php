@@ -10,7 +10,7 @@ if (isset($_GET['id'])) {
     $id_despesa = $_GET['id'];
 
     // Consulta SQL para selecionar os dados da despesa com base no ID
-    $sql = "SELECT id_veiculo, tipo_despesa, descricao, valor FROM despesas WHERE id = ?";
+    $sql = "SELECT id_veiculo, tipo_despesa, descricao, valor, data_despesa FROM despesas WHERE id = ?";
     $stmt = $mysqli->prepare($sql);
 
     // Verifica se a preparação da consulta foi bem-sucedida
@@ -22,7 +22,7 @@ if (isset($_GET['id'])) {
         $stmt->execute();
 
         // Vincula o resultado da consulta
-        $stmt->bind_result($id_veiculo, $tipo_despesa, $descricao, $valor);
+        $stmt->bind_result($id_veiculo, $tipo_despesa, $descricao, $valor, $data_despesa);
 
         // Obtém os dados da despesa
         $stmt->fetch();
@@ -122,68 +122,72 @@ if (isset($_GET['id'])) {
             </div>
 
             <div class="cad-desepesas">
-        <form action="atualizar_despesa.php" method="post">
-            <input type="hidden" name="id" value="<?php echo $id_despesa; ?>">
-            <div class="card-cad-despesas">
-                <!-- Preenchimento dos campos do formulário com os dados da despesa -->
-                <div class="textfield">
-                    <label for="veiculo">Veículo:</label>
-                    <select name="veiculo" id="veiculo">
-                        <!-- Opções de veículos do usuário -->
-                        <?php
-                        // Consulta SQL para selecionar os veículos do usuário
-                        $sql = "SELECT id, modelo FROM veiculos WHERE id_usuario = ?";
-                        $stmt = $mysqli->prepare($sql);
-                        if ($stmt) {
-                            $stmt->bind_param("i", $_SESSION['id']);
-                            $stmt->execute();
-                            $result = $stmt->get_result();
-                            while ($row = $result->fetch_assoc()) {
-                                $selected = ($row['id'] == $id_veiculo) ? "selected" : "";
-                                echo "<option value='" . $row['id'] . "' $selected>" . $row['modelo'] . "</option>";
-                            }
-                            $stmt->close();
-                        } else {
-                            echo "<option value=''>Erro ao carregar veículos</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="textfield">
-                    <label for="tipo">Tipo de Despesa:</label>
-                    <select name="tipo_despesa" id="tipo_despesa">
-                        <!-- Tipos de Despesas -->
-                        <?php
-                        // Consulta SQL para selecionar os tipos de despesa
-                        $sql = "SELECT id, nome FROM tipo_despesa";
-                        $stmt = $mysqli->prepare($sql);
-                        if ($stmt) {
-                            $stmt->execute();
-                            $result = $stmt->get_result();
-                            while ($row = $result->fetch_assoc()) {
-                                $selected = ($row['id'] == $tipo_despesa) ? "selected" : "";
-                                echo "<option value='" . $row['id'] . "' $selected>" . $row['nome'] . "</option>";
-                            }
-                            $stmt->close();
-                        } else {
-                            echo "<option value=''>Erro ao carregar tipo de despesa</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="textfield">
-                    <label for="descricao">Descrição:</label>
-                    <input type="text" name="descricao" id="descricao" value="<?php echo $descricao; ?>" required>
-                </div>
-                <div class="textfield">
-                    <label for="valor">Valor:</label>
-                    <input type="text" name="valor" id="valor" value="<?php echo $valor; ?>" required>
-                </div>
-                <button class="btn-cad" type="submit">Atualizar</button>
-                <button class="btn-cad" onclick="history.back()">Voltar</button>
+                <form action="atualizar_despesa.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $id_despesa; ?>">
+                    <div class="card-cad-despesas">
+                        <!-- Preenchimento dos campos do formulário com os dados da despesa -->
+                        <div class="textfield">
+                            <label for="veiculo">Veículo:</label>
+                            <select name="veiculo" id="veiculo">
+                                <!-- Opções de veículos do usuário -->
+                                <?php
+                                // Consulta SQL para selecionar os veículos do usuário
+                                $sql = "SELECT id, modelo FROM veiculos WHERE id_usuario = ?";
+                                $stmt = $mysqli->prepare($sql);
+                                if ($stmt) {
+                                    $stmt->bind_param("i", $_SESSION['id']);
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+                                    while ($row = $result->fetch_assoc()) {
+                                        $selected = ($row['id'] == $id_veiculo) ? "selected" : "";
+                                        echo "<option value='" . $row['id'] . "' $selected>" . $row['modelo'] . "</option>";
+                                    }
+                                    $stmt->close();
+                                } else {
+                                    echo "<option value=''>Erro ao carregar veículos</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="textfield">
+                            <label for="tipo">Tipo de Despesa:</label>
+                            <select name="tipo_despesa" id="tipo_despesa">
+                                <!-- Tipos de Despesas -->
+                                <?php
+                                // Consulta SQL para selecionar os tipos de despesa
+                                $sql = "SELECT id, nome FROM tipo_despesa";
+                                $stmt = $mysqli->prepare($sql);
+                                if ($stmt) {
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+                                    while ($row = $result->fetch_assoc()) {
+                                        $selected = ($row['id'] == $tipo_despesa) ? "selected" : "";
+                                        echo "<option value='" . $row['id'] . "' $selected>" . $row['nome'] . "</option>";
+                                    }
+                                    $stmt->close();
+                                } else {
+                                    echo "<option value=''>Erro ao carregar tipo de despesa</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="textfield">
+                            <label for="descricao">Descrição:</label>
+                            <input type="text" name="descricao" id="descricao" value="<?php echo $descricao; ?>" required>
+                        </div>
+                        <div class="textfield">
+                            <label for="valor">Valor:</label>
+                            <input type="text" name="valor" id="valor" value="<?php echo $valor; ?>" required>
+                        </div>
+                        <div class="textfield">
+                            <label for="data_despesa">Data:</label>
+                            <input type="date" name="data_despesa" id="data_despesa" required>
+                        </div>
+                        <button class="btn-cad" type="submit">Atualizar</button>
+                        <button class="btn-cad" onclick="history.back()">Voltar</button>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
         </main>
         <!--End Main -->
     </div>
