@@ -5,25 +5,31 @@ Desenvolvido em HTML, CSS e PHP.
 
 ## Telas já desenvolvidas
 ### Login
-![image](https://github.com/raianecj/hidriver/assets/39846447/618aa92f-306a-4c84-816a-05dcfa96f7dd)
+![image](https://github.com/raianecj/hidriver/assets/39846447/e7de6768-f5a8-4d81-ac22-4dfe5c2639c5)
 
 ### Registro de Usuário
-![image](https://github.com/raianecj/hidriver/assets/39846447/9335fb2c-7893-4144-a573-c49eff96f87f)
+![image](https://github.com/raianecj/hidriver/assets/39846447/f844371d-d8c2-4335-bed3-2c785ea85588)
 
 ### Painel Inicial
-![image](https://github.com/raianecj/hidriver/assets/39846447/6935367d-17c9-4b34-a67a-6223c8e3c138)
+![image](https://github.com/raianecj/hidriver/assets/39846447/c0747330-61f8-4dfa-90ae-68590de7f404)
 
 ### Veículos
-![image](https://github.com/raianecj/hidriver/assets/39846447/32c38ac7-f56d-4b46-8b44-23eb862296c5)
+![image](https://github.com/raianecj/hidriver/assets/39846447/2be9dd6f-86ae-4da8-9bbd-e7b713f50a0a)
 
 ### Cadastrar Veículo
-![image](https://github.com/raianecj/hidriver/assets/39846447/688d3cd8-f47c-470a-bb23-3d1e27529215)
+![image](https://github.com/raianecj/hidriver/assets/39846447/2076794b-db4a-4cf7-b1be-1591684a34cc)
 
 ### Editar Veículo
-![image](https://github.com/raianecj/hidriver/assets/39846447/a8e420b0-6947-4b38-a287-83d17ce3c1bd)
+![image](https://github.com/raianecj/hidriver/assets/39846447/2a3d3df8-1a02-4ae2-a102-ae8b3797495b)
 
 ### Excluir Veículo
-![image](https://github.com/raianecj/hidriver/assets/39846447/535ed96d-0c7b-477a-ab49-5d73d0f47fae)
+![image](https://github.com/raianecj/hidriver/assets/39846447/fe4199db-2211-463b-a1db-fbe30a8d06d5)
+
+### Despesas
+![image](https://github.com/raianecj/hidriver/assets/39846447/f3505de4-d55e-404f-a6df-e2ff650072cb)
+
+### Editar Despesas
+![image](https://github.com/raianecj/hidriver/assets/39846447/b4714d30-3a77-4135-922d-c282c95be954)
 
 
 
